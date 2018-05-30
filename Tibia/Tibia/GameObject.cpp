@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 
 int stopper=0;
+
 GameObject::GameObject(const char* textureSheet, int x, int y,int delay)
 {
 	objTexture = TextureManager::LoadTexture(textureSheet);

@@ -2,6 +2,7 @@
 #include <ctime>
 
 
+
 Mob::Mob(const char* textureSheet, int x, int y,int delay):GameObject(textureSheet, x, y,delay)
 {
 	moveFreely();
@@ -15,7 +16,7 @@ Uint32 timeDelay2(Uint32 interval, void* obj)
 {
 	GameObject* gameObject = (GameObject*)obj;
 
-	srand(time(NULL));
+	
 	gameObject->setOrientation(rand() % 4);
 
 
@@ -25,7 +26,7 @@ Uint32 timeDelay2(Uint32 interval, void* obj)
 }
 void Mob::moveFreely()
 {
-	
+	srand(time(NULL));
 
 	SDL_AddTimer(8*Delay,timeDelay2 , this);
 

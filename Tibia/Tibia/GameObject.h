@@ -26,6 +26,7 @@ public:
 
 	void setOrientation(int ort) { orientation = ort ; };
 protected:
+
 	int xpos;
 	int ypos;
 	int orientation; //0 RIGHT || 1 UP || 2 LEFT || 3 DOWN 

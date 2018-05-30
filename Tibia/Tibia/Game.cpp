@@ -1,12 +1,19 @@
+#include <vector>
 #include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
 #include "Map.h"
+#include "Character.h"
+#include "Mob.h"
 
+std::vector<Mob*> enemies;
+Mob* enemy1;
+Mob* enemy2;
+Mob* enemy3;
+Mob* enemy4;
 
-GameObject* enemy;
 Map* map;
-GameObject* player;
+Character* player;
 SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game()
@@ -41,9 +48,22 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		isRunning = true;
 	}
 	
+	enemy1 = new Mob("../Textures/Minotaur/front.png", 43*8,43*14, 40);
+	enemy2 = new Mob("../Textures/Minotaur/front.png",43*15, 43*10, 40);
 
-	player = new GameObject("../Textures/Char/front.png", 0 , 0);
-	enemy = new GameObject("../Textures/OrcWarrior/front.png", 43, 0);
+	enemy3 = new Mob("../Textures/Minotaur/front.png", 43*10, 43*14, 40);
+	enemy4 = new Mob("../Textures/Minotaur/front.png", 43*15, 43*7, 40);
+
+
+
+	enemies.push_back(enemy1);
+	enemies.push_back(enemy2);
+	enemies.push_back(enemy3);
+	enemies.push_back(enemy4);
+
+
+	player = new Character("../Textures/Char/front.png", 0 , 0,40);
+
 	map = new Map();
 }
 
@@ -88,7 +108,8 @@ void Game::handleEvents()
 void Game::update()
 {
 	player->Update();
-	enemy->Update();
+	for(auto &p:enemies)
+		p->Update();
 }
 
 void Game::render()
@@ -97,7 +118,9 @@ void Game::render()
 	map->DrawMap();
 	//this is where we would add stuff to render
 	player->Render();
-	enemy->Render();
+	for (auto &p : enemies)
+		p->Render();
+
 	SDL_RenderPresent(renderer);
 }
 

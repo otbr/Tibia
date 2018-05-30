@@ -2,11 +2,12 @@
 #include "TextureManager.h"
 #include "GameObject.h"
 #include "Map.h"
+#include "Character.h"
+#include "Mob.h"
 
-
-GameObject* enemy;
+Mob* enemy;
 Map* map;
-GameObject* player;
+Character* player;
 SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game()
@@ -42,8 +43,8 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	}
 	
 
-	player = new GameObject("../Textures/Char/front.png", 0 , 0);
-	enemy = new GameObject("../Textures/OrcWarrior/front.png", 43, 0);
+	player = new Character("../Textures/Char/front.png", 0 , 0,40);
+	enemy = new Mob("../Textures/Minotaur/front.png", 43, 0,50);
 	map = new Map();
 }
 

@@ -16,7 +16,7 @@ public:
 	void update();
 	void render();
 	void clean();
-
+	//void LoadTextures();
 	bool running() { return isRunning; }
 
 	static SDL_Renderer* renderer;

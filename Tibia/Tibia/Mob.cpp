@@ -1,10 +1,13 @@
 #include "Mob.h"
 #include <ctime>
 
+int stopper = 0;
 
-
-Mob::Mob(const char* textureSheet, int x, int y,int delay):GameObject(textureSheet, x, y,delay)
+Mob::Mob(int x, int y,int delay):GameObject( x, y,delay)
 {
+	loadTextures();
+	objTexture = objTextures[3];
+
 	moveFreely();
 }
 
@@ -12,46 +15,148 @@ Mob::Mob(const char* textureSheet, int x, int y,int delay):GameObject(textureShe
 Mob::~Mob()
 {
 }
+
 Uint32 timeDelay2(Uint32 interval, void* obj)
 {
-	GameObject* gameObject = (GameObject*)obj;
+	Mob* mobix = (Mob*)obj;
 
-	
-	gameObject->setOrientation(rand() % 4);
+	int yolo = rand() % 4;
 
-
-	gameObject->move(gameObject->getOrientation());
+	mobix->startMove(yolo);
 
 	return interval;
 }
+
 void Mob::moveFreely()
 {
 	srand(time(NULL));
 
-	SDL_AddTimer(8*Delay,timeDelay2 , this);
+
+	SDL_AddTimer(12*Delay,timeDelay2 , this);
 
 
 }
 
-void Mob::rotate()
+Uint32 process(Uint32 interval, void* obj)
 {
-	switch (orientation)
-	{
+	Mob* mobix = (Mob*)obj;
+
+	switch (mobix->getOrientation()) {
 	case 0:
-		objTexture = TextureManager::LoadTexture("../Textures/Minotaur/right.png");
-		break;
+		if (mobix->iloscRuchow() == 4) {
+			mobix->increaseX(10);
+			mobix->zmniejszRuchy();
+			//std::cout << "zmiana textury" << std::endl;
 
+		}
+		else if (mobix->iloscRuchow() < 4) {
+			mobix->increaseX(11);
+			mobix->zmniejszRuchy();
+			//gameObject->changeTexture("../Textures/Char/front.png");
+
+		}
+
+		if (mobix->iloscRuchow() > 0)
+			return interval;
+		break;
 	case 1:
-		objTexture = TextureManager::LoadTexture("../Textures/Minotaur/up.png");
-		break;
+		if (mobix->iloscRuchow() == 4) {
+			mobix->increaseY(-10);
+			mobix->zmniejszRuchy();
 
+		}
+		else if (mobix->iloscRuchow() < 4) {
+			mobix->increaseY(-11);
+			mobix->zmniejszRuchy();
+
+		}
+
+		if (mobix->iloscRuchow() > 0)
+			return interval;
+		break;
 	case 2:
-		objTexture = TextureManager::LoadTexture("../Textures/Minotaur/left.png");
-		break;
+		if (mobix->iloscRuchow() == 4) {
+			mobix->increaseX(-10);
+			mobix->zmniejszRuchy();
 
+		}
+		else if (mobix->iloscRuchow() < 4) {
+			mobix->increaseX(-11);
+			mobix->zmniejszRuchy();
+
+		}
+
+		if (mobix->iloscRuchow() > 0)
+			return interval;
+		break;
 	case 3:
-		objTexture = TextureManager::LoadTexture("../Textures/Minotaur/front.png");
-		break;
+		if (mobix->iloscRuchow() == 4) {
+			mobix->increaseY(10);
+			mobix->zmniejszRuchy();
+			mobix->changeTexture(5);
+		}
+		else if (mobix->iloscRuchow() < 4) {
+			mobix->increaseY(11);
 
+			if (mobix->getRuchy() == 3)
+			mobix->changeTexture(5);
+
+			else if (mobix->getRuchy() == 2)
+				mobix->changeTexture(4);
+
+			else if (mobix->getRuchy() == 1)
+				mobix->changeTexture(3);
+
+			mobix->zmniejszRuchy();
+
+		}
+
+		if (mobix->iloscRuchow() > 0)
+			return interval;
+		break;
 	}
+
+	return 0;
 }
+
+Uint32 timeDelay(Uint32 interval, void* obj)
+{
+	Mob* mobix = (Mob*)obj;
+
+	if (stopper = 1) {
+		mobix->changeIsMoving(false);
+		return 0;
+	}
+
+	++stopper;
+	return interval;
+
+}
+
+void Mob::startMove(int direct)
+{
+	if (isMoving)
+		return;
+
+	changeIsMoving(true);
+
+	if (orientation != direct) {
+		orientation = direct;
+		updateRotation();
+	}
+
+	stopper = 0;
+	SDL_AddTimer(4 * Delay, timeDelay, this);
+
+	ruchy = 4;
+
+	SDL_AddTimer(Delay, process, this);
+
+}
+
+void Mob::loadTextures()
+{
+	TextureManager::fillTheTextures(&objTextures, 1);
+
+}
+

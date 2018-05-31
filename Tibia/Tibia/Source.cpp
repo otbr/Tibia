@@ -14,12 +14,14 @@ int main(int argc, char *args[])
 	int frameTime;
 
 	game = new Game();
-	
 	game->init("Begginings", 1118, 774, false);
+	//game->LoadTextures();
+
+
 	while (game->running()) {
 
 		frameStart = SDL_GetTicks();
-
+		
 		game->handleEvents();
 		game->update();
 		game->render();

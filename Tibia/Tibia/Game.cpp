@@ -27,6 +27,7 @@ Game::~Game()
 
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
+
 	int flags = 0;
 
 	if (fullscreen)
@@ -47,12 +48,15 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		}
 		isRunning = true;
 	}
-	
-	enemy1 = new Mob("../Textures/Minotaur/front.png", 43*8,43*14, 40);
-	enemy2 = new Mob("../Textures/Minotaur/front.png",43*15, 43*10, 40);
 
-	enemy3 = new Mob("../Textures/Minotaur/front.png", 43*10, 43*14, 40);
-	enemy4 = new Mob("../Textures/Minotaur/front.png", 43*15, 43*7, 40);
+	map = new Map();
+
+
+	enemy1 = new Mob(43 * 8, 43 * 14, 60);
+	enemy2 = new Mob(43 * 15, 43 * 10, 60);
+
+	enemy3 = new Mob(43 * 10, 43 * 14, 60);
+	enemy4 = new Mob(43 * 15, 43 * 7, 60);
 
 
 
@@ -62,9 +66,14 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	enemies.push_back(enemy4);
 
 
-	player = new Character("../Textures/Char/front.png", 0 , 0,40);
+	player = new Character(0, 0, 40);
 
-	map = new Map();
+
+	player->loadTextures();
+
+	for (auto &p : enemies)
+		p->loadTextures();
+	
 }
 
 void Game::handleEvents() 
@@ -81,19 +90,19 @@ void Game::handleEvents()
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_UP:
-				player->move(1);
+				player->startMove(1);
 				break;
 
 			case SDLK_DOWN:
-				player->move(3);
+				player->startMove(3);
 				break;
 
 			case SDLK_LEFT:
-				player->move(2);
+				player->startMove(2);
 				break;
 
 			case SDLK_RIGHT:
-				player->move(0);
+				player->startMove(0);
 
 				break;
 
@@ -131,3 +140,5 @@ void Game::clean()
 	SDL_Quit();
 	std::cout << "Game Cleaned!" << std::endl;
 }
+
+

@@ -5,9 +5,12 @@
 class Character:public GameObject
 {
 public:
-	Character(const char * textureSheet, int x, int y, int delay);
+	Character(int x, int y, int delay);
 	~Character();
 
-	void rotate();
+	void loadTextures();
+	void startMove(int direct);
+	//void move(int direction);
+
 };
 

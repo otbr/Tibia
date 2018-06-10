@@ -3,7 +3,6 @@
 
 
 Game *game = NULL;
-
 int main(int argc, char *args[])
 {
 
@@ -14,8 +13,9 @@ int main(int argc, char *args[])
 	int frameTime;
 
 	game = new Game();
-	game->init("Begginings", 1118, 774, false);
-	//game->LoadTextures();
+	game->init("Begginings", 1920, 1080, 1);
+
+	
 
 
 	while (game->running()) {
@@ -25,6 +25,7 @@ int main(int argc, char *args[])
 		game->handleEvents();
 		game->update();
 		game->render();
+		
 
 		frameTime = SDL_GetTicks() - frameStart;
 

@@ -6,7 +6,7 @@
 class Mob:public GameObject
 {
 public:
-	Mob(int x, int y,int delay);
+	Mob(int x, int y, int maxhp, int delay);
 	~Mob();
 
 	void moveFreely();

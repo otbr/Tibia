@@ -7,8 +7,8 @@ public:
 	Map();
 	~Map();
 
-	void LoadMap(int arr[18][26]);
-	void DrawMap();
+	void LoadMap(int arr[40][60]);
+	void DrawMap(Game* points);
 
 private:
 
@@ -21,6 +21,8 @@ private:
 	SDL_Texture* darkStone;
 	SDL_Texture* fireOnStone;
 
-	int map[18][26];
+	int map[40][60];
+
+
 };
 

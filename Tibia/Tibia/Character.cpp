@@ -2,7 +2,7 @@
 
 int stopperr = 0;
 
-Character::Character( int x, int y, int delay) :GameObject( x, y,delay)
+Character::Character( int x, int y,int maxhp, int delay) :GameObject( x, y, maxhp, delay)
 {
 	loadTextures();
 
@@ -36,7 +36,6 @@ Uint32 processi(Uint32 interval, void* obj)
 		else if (charac->iloscRuchow() < 4) {
 			charac->increaseX(11);
 			charac->zmniejszRuchy();
-			//gameObject->changeTexture("../Textures/Char/front.png");
 
 		}
 
@@ -99,6 +98,9 @@ Uint32 timeDelayy(Uint32 interval, void* obj)
 
 	if (stopperr = 1) {
 		charac->changeIsMoving(false);
+		
+
+
 		return 0;
 	}
 
@@ -111,7 +113,9 @@ void Character::startMove(int direct)
 {
 	if (isMoving)
 		return;
-
+	if (!checkIfTheMoveIsPossible(direct))
+		return;
+	
 	changeIsMoving(true);
 
 	if (orientation != direct) {
@@ -127,6 +131,33 @@ void Character::startMove(int direct)
 	SDL_AddTimer(Delay, processi, this);
 
 }
+
+/*void Character::setCamera(SDL_Rect & camera)
+{
+	//Center the camera over the dot
+	camera.x = (xpos + 21) - 1118 / 2;
+	camera.y = (ypos + 21) - 774 / 2;
+
+	//Keep the camera in bounds
+	if (camera.x < 0)
+	{
+		camera.x = 0;
+	}
+	if (camera.y < 0)
+	{
+		camera.y = 0;
+	}
+	if (camera.x > 43*60 - camera.w)
+	{
+		camera.x = 43*60 - camera.w;
+	}
+	if (camera.y > 43*40 - camera.h)
+	{
+		camera.y = 43*40 - camera.h;
+	}
+}*/
+
+
 
 
 

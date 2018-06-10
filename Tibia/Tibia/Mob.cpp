@@ -3,7 +3,7 @@
 
 int stopper = 0;
 
-Mob::Mob(int x, int y,int delay):GameObject( x, y,delay)
+Mob::Mob(int x, int y, int maxhp, int delay):GameObject( x, y, maxhp, delay)
 {
 	loadTextures();
 	objTexture = objTextures[3];
@@ -25,14 +25,14 @@ Uint32 timeDelay2(Uint32 interval, void* obj)
 	mobix->startMove(yolo);
 
 	return interval;
+	//SDL_AddTimer(rand() % 4, timeDelay2, nullptr);
+	//return 0;
 }
 
 void Mob::moveFreely()
 {
-	srand(time(NULL));
 
-
-	SDL_AddTimer(12*Delay,timeDelay2 , this);
+	SDL_AddTimer(12*Delay*((rand()%4)+1),timeDelay2 , this);
 
 
 }
@@ -135,10 +135,13 @@ Uint32 timeDelay(Uint32 interval, void* obj)
 
 void Mob::startMove(int direct)
 {
+
 	if (isMoving)
 		return;
 
 	changeIsMoving(true);
+	srand(time(NULL));
+
 
 	if (orientation != direct) {
 		orientation = direct;

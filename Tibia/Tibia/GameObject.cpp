@@ -50,10 +50,10 @@ void GameObject::Update(Game* points)
 	if (xpos == 23*40)
 		possibleMoves[0]= 0;
 
-	if (ypos == 17)
+	if (ypos <= 36)
 		possibleMoves[1] = 0;
 
-	if (xpos == 23)
+	if (xpos <= 39)
 		possibleMoves[2] = 0;
 
 	if (xpos == 23*40)

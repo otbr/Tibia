@@ -13,6 +13,7 @@ public:
 private:
 
 	SDL_Rect src, dest;
+	SDL_Rect srcB, destB;
 
 	SDL_Texture* dirt;
 	SDL_Texture* grass;
@@ -20,6 +21,8 @@ private:
 	SDL_Texture* stone;
 	SDL_Texture* darkStone;
 	SDL_Texture* fireOnStone;
+	SDL_Texture* backgroundTex;
+
 
 	int map[40][60];
 

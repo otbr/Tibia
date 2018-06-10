@@ -5,7 +5,6 @@
 #include "Map.h"
 #include "Character.h"
 #include "Mob.h"
-#include "Background.h"
 
 std::vector<Mob*> enemies;
 Mob* enemy1;
@@ -13,7 +12,6 @@ Mob* enemy2;
 Mob* enemy3;
 Mob* enemy4;
 
-Background* backImg;
 Map* map;
 Character* player;
 SDL_Renderer* Game::renderer = nullptr;
@@ -46,12 +44,12 @@ void Game::init(const char * title, int width, int height, bool fullscreen)
 		renderer = SDL_CreateRenderer(window, -1, 0);
 
 
+
 		if (renderer)
 		{
 			
 
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
 			
 		}
 
@@ -86,7 +84,7 @@ void Game::init(const char * title, int width, int height, bool fullscreen)
 		p->loadTextures();
 
 	viewingPort.h = 800;
-	viewingPort.w = 1400;
+	viewingPort.w = 1150;
 	viewingPort.x = 200;
 	viewingPort.y = 75;
 
@@ -97,8 +95,6 @@ void Game::init(const char * title, int width, int height, bool fullscreen)
 	Camera.x = 0;
 	Camera.y = 0;
 
-	
-	//SDL_Delay(5000);
 }
 
 void Game::handleEvents()
@@ -150,8 +146,6 @@ void Game::handleEvents()
 }
 void Game::update()
 {
-	
-
 	player->Update(this);
 	for(auto &p:enemies)
 		p->Update(this);
@@ -195,24 +189,24 @@ void Game::render()
 	SDL_SetRenderDrawColor(Game::renderer, 0x00, 0x00, 0x00, 0xFF);
 
 	SDL_RenderClear(renderer);
+	
 
-	//backImg->Render();
 	map->DrawMap(this);
 	//this is where we would add stuff to render
 	
 	player->Render();
 	for (auto &p : enemies)
 		p->Render();
-
 	
-
 	SDL_RenderPresent(renderer);
+
 }
 
 void Game::clean()
 {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+
 	SDL_Quit();
 	std::cout << "Game Cleaned!" << std::endl;
 }

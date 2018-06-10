@@ -66,6 +66,10 @@ Map::Map()
 	//5
 	fireOnStone = TextureManager::LoadTexture("../Textures/Floor/fireOnStone.png");
 
+	//Background
+	backgroundTex = TextureManager::LoadTexture("../Textures/loading/tloo.png");
+
+
 	LoadMap(lvl1);
 
 	src.x = src.y = 0;
@@ -75,10 +79,24 @@ Map::Map()
 	dest.h = src.h;
 
 	dest.x = dest.y = 0;
+
+	srcB.x = 0;
+	srcB.y = 0;
+	srcB.h = 1080;
+	srcB.w = 1920;
+
+	destB.x = 0;
+	destB.y = 0;
+	destB.h = 1080;
+	destB.w = 1920;
+	
+
 }
 
 void Map::LoadMap(int arr[40][60])
 {
+
+
 	for (int row = 0; row < 40; row++)
 	{
 		for (int column = 0; column < 60; column++)
@@ -89,7 +107,19 @@ void Map::LoadMap(int arr[40][60])
 void Map::DrawMap(Game* points)
 {
 	int type = 0;
-	 
+	SDL_RenderSetViewport(Game::renderer, &destB);
+	TextureManager::Draw(backgroundTex, srcB, destB);
+	
+	SDL_Rect viewingPort;
+
+	viewingPort.h = 800;
+	viewingPort.w = 1150;
+	viewingPort.x = 200;
+	viewingPort.y = 63;
+
+	SDL_RenderSetViewport(Game::renderer, &viewingPort);
+
+
 	for (int row = 0; row < 40; row++)
 	{
 		for (int column = 0; column < 60; column++)
@@ -127,10 +157,15 @@ void Map::DrawMap(Game* points)
 				break;
 
 			default:
+
 				break;
 			}
+
 		}
+
 	}
+
+
 }
 
 Map::~Map()

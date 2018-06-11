@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Character.h"
 #include "Mob.h"
+#include "Spear.h"
 
 std::vector<Mob*> enemies;
 Mob* enemy1;
@@ -15,6 +16,7 @@ Mob* enemy4;
 Map* map;
 Character* player;
 SDL_Renderer* Game::renderer = nullptr;
+
 
 Game::Game()
 {
@@ -61,11 +63,11 @@ void Game::init(const char * title, int width, int height, bool fullscreen)
 	map = new Map();
 
 
-	enemy1 = new Mob((43-20) +4*43 , (43 - 26) + 2*43,22, 60);
-	enemy2 = new Mob((43 - 20) + 4*43,(43 - 26) +4*43 , 22, 60);
+	enemy1 = new Mob((43-20) +18*43, (43 - 26),22, 60);
+	enemy2 = new Mob((43 - 20) + 8*43,(43 - 26) +33*43 , 22, 60);
 
-	enemy3 = new Mob((43 - 20) + 4*43, (43 - 26)+ 6*43, 22, 60);
-	enemy4 = new Mob((43 - 20) +4*43, (43 - 26 )+8*43, 22, 60);
+	enemy3 = new Mob((43 - 20) + 11*43, (43 - 26)+ 14*43, 22, 60);
+	enemy4 = new Mob((43 - 20) +22*43, (43 - 26 )+8*43, 22, 60);
 
 
 
@@ -75,7 +77,7 @@ void Game::init(const char * title, int width, int height, bool fullscreen)
 	enemies.push_back(enemy4);
 
 
-	player = new Character(43 - 20, 43 - 26,22, 60);
+	player = new Character(43 - 20 + 43*5, 43 - 26 + 43 * 4,22, 30);
 
 
 	player->loadTextures();
@@ -130,9 +132,12 @@ void Game::handleEvents()
 				player->startMove(0);
 
 				break;
-			case SDLK_F10:
-				std::cout << "ACTUAL X: " << player->getXpos() << std::endl;
-				std::cout << "ACTUAL Y: " << player->getYpos() << std::endl;
+			case SDLK_SPACE:
+				player->shot(this);
+				//std::cout << "ACTUAL X: " << player->getXpos() << std::endl;
+				//std::cout << "ACTUAL Y: " << player->getYpos() << std::endl;
+
+				break;
 			case SDLK_ESCAPE:
 				isRunning = false;
 				break;
@@ -146,6 +151,7 @@ void Game::handleEvents()
 }
 void Game::update()
 {
+	
 	player->Update(this);
 	for(auto &p:enemies)
 		p->Update(this);
@@ -165,17 +171,17 @@ void Game::update()
 		player->setIsCentered(0);
 
 	}
-	if (Camera.x > 43 * 60 - Camera.w)
+	if (Camera.x > 43 * 59 - Camera.w)
 	{
-		Camera.x = 43 * 60 - Camera.w;
+		Camera.x = 43 * 59 - Camera.w;
 		player->setIsCentered(0);
 
 	}
-	if (Camera.y > 43 * 40 - Camera.h)
+	if (Camera.y > 43 * 39 - Camera.h)
 	{
 		player->setIsCentered(0);
 
-		Camera.y = 43 * 40 - Camera.h;
+		Camera.y = 43 * 39 - Camera.h;
 	}
 	//setNewVievingPortPosition(player->getXpos(), player->getYpos());
 
@@ -186,6 +192,7 @@ void Game::update()
 
 void Game::render()
 {
+
 	SDL_SetRenderDrawColor(Game::renderer, 0x00, 0x00, 0x00, 0xFF);
 
 	SDL_RenderClear(renderer);
@@ -197,7 +204,10 @@ void Game::render()
 	player->Render();
 	for (auto &p : enemies)
 		p->Render();
-	
+
+	if(player->spearsCount())
+		player->renderSpears();
+
 	SDL_RenderPresent(renderer);
 
 }

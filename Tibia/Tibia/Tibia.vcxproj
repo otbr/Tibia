@@ -146,6 +146,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mob.h" />
+    <ClInclude Include="Spear.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +156,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mob.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Spear.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

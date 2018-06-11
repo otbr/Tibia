@@ -15,6 +15,9 @@ private:
 	SDL_Rect src, dest;
 	SDL_Rect srcB, destB;
 
+
+	SDL_Texture* otherGrass1;
+
 	SDL_Texture* dirt;
 	SDL_Texture* grass;
 	SDL_Texture* wood;

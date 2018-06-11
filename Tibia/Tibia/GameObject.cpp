@@ -47,7 +47,7 @@ void GameObject::Update(Game* points)
 		possibleMoves[i] = 1;
 
 	//If the object went too far to the left or right
-	if (xpos == 23*40)
+	if (xpos >= 43*57)
 		possibleMoves[0]= 0;
 
 	if (ypos <= 36)
@@ -56,7 +56,7 @@ void GameObject::Update(Game* points)
 	if (xpos <= 39)
 		possibleMoves[2] = 0;
 
-	if (xpos == 23*40)
+	if (ypos >= 43*37)
 		possibleMoves[3] = 0;
 
 

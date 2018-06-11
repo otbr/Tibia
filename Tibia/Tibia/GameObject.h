@@ -39,8 +39,8 @@ protected:
 	int orientation=3; //0 RIGHT || 1 UP || 2 LEFT || 3 DOWN 
 	int ruchy;
 	std::vector<SDL_Texture*> objTextures;
-	SDL_Texture* objTexture;
 	SDL_Rect srcRect, destRect;
+	SDL_Texture* objTexture;
 	int Delay;
 	bool isMoving = false;
 	bool isFighting = false;

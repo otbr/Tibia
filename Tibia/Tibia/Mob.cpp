@@ -8,6 +8,7 @@ Mob::Mob(int x, int y, int maxhp, int delay):GameObject( x, y, maxhp, delay)
 	loadTextures();
 	objTexture = objTextures[3];
 
+
 	moveFreely();
 }
 
@@ -22,6 +23,7 @@ Uint32 timeDelay2(Uint32 interval, void* obj)
 
 	int yolo = rand() % 4;
 
+	
 	mobix->startMove(yolo);
 
 	return interval;
@@ -137,6 +139,8 @@ void Mob::startMove(int direct)
 {
 
 	if (isMoving)
+		return;
+	if (!possibleMoves[direct])
 		return;
 
 	changeIsMoving(true);

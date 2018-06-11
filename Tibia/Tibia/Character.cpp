@@ -6,8 +6,8 @@ Character::Character( int x, int y,int maxhp, int delay) :GameObject( x, y, maxh
 {
 	loadTextures();
 
-	//objTextures = TextureManager::fillTheTextures(objTextures, 0);
 	objTexture = objTextures[3];
+	
 }
 
 
@@ -132,30 +132,24 @@ void Character::startMove(int direct)
 
 }
 
-/*void Character::setCamera(SDL_Rect & camera)
+void Character::shot(Game* points)
 {
-	//Center the camera over the dot
-	camera.x = (xpos + 21) - 1118 / 2;
-	camera.y = (ypos + 21) - 774 / 2;
+	spearsCounts++;
+	Spear* spir = new Spear(xpos, ypos, orientation, points);
+	spears.push_back(spir);
 
-	//Keep the camera in bounds
-	if (camera.x < 0)
+}
+
+void Character::renderSpears()
+{
+
+	for (auto &p : spears)
 	{
-		camera.x = 0;
+		p->update();
+		p->render();
 	}
-	if (camera.y < 0)
-	{
-		camera.y = 0;
-	}
-	if (camera.x > 43*60 - camera.w)
-	{
-		camera.x = 43*60 - camera.w;
-	}
-	if (camera.y > 43*40 - camera.h)
-	{
-		camera.y = 43*40 - camera.h;
-	}
-}*/
+}
+
 
 
 

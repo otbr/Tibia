@@ -14,6 +14,7 @@ public:
 	//static const int levelHeight = 1080;
 
 	void init(const char* title, int width, int height, bool fullscreen);
+	void initRest();
 	void handleEvents();
 	void update();
 	void render();
@@ -27,11 +28,12 @@ public:
 	int getXCam();
 	int getYCam();
 
+
 	
 	//void setNewVievingPortPosition();
 
 private:
-
+	SDL_Texture * loadingTex;
 	SDL_Texture* loadingpic;
 	int cnt=0;
 	SDL_Rect Camera;

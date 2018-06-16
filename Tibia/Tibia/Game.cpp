@@ -7,6 +7,8 @@
 #include "Mob.h"
 #include "Spear.h"
 
+int beginCounter = 0;
+bool sPressed = 0;
 std::vector<Mob*> enemies;
 Mob* enemy1;
 Mob* enemy2;
@@ -20,6 +22,7 @@ SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game()
 {
+
 }
 
 
@@ -52,14 +55,17 @@ void Game::init(const char * title, int width, int height, bool fullscreen)
 			
 
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+			loadingTex = TextureManager::LoadTexture("../Textures/loading/Loading.png");
+
 			
 		}
 
 		isRunning = true;
+
 	}
 
 
-
+	 /*
 	map = new Map();
 
 
@@ -95,7 +101,49 @@ void Game::init(const char * title, int width, int height, bool fullscreen)
 	Camera.h = 774;
 	Camera.w = 1114;
 	Camera.x = 0;
+	Camera.y = 0;*/
+
+}
+
+void Game::initRest()
+{
+	map = new Map();
+
+
+	enemy1 = new Mob((43 - 20) + 18 * 43, (43 - 26), 22, 60);
+	enemy2 = new Mob((43 - 20) + 8 * 43, (43 - 26) + 33 * 43, 22, 60);
+
+	enemy3 = new Mob((43 - 20) + 11 * 43, (43 - 26) + 14 * 43, 22, 60);
+	enemy4 = new Mob((43 - 20) + 22 * 43, (43 - 26) + 8 * 43, 22, 60);
+
+
+
+	enemies.push_back(enemy1);
+	enemies.push_back(enemy2);
+	enemies.push_back(enemy3);
+	enemies.push_back(enemy4);
+
+
+	player = new Character(43 - 20 + 43 * 5, 43 - 26 + 43 * 4, 22, 30);
+
+
+	player->loadTextures();
+
+	for (auto &p : enemies)
+		p->loadTextures();
+
+	viewingPort.h = 800;
+	viewingPort.w = 1150;
+	viewingPort.x = 200;
+	viewingPort.y = 75;
+
+	SDL_RenderSetViewport(Game::renderer, &viewingPort);
+
+	Camera.h = 774;
+	Camera.w = 1114;
+	Camera.x = 0;
 	Camera.y = 0;
+
 
 }
 
@@ -138,9 +186,13 @@ void Game::handleEvents()
 				//std::cout << "ACTUAL Y: " << player->getYpos() << std::endl;
 
 				break;
+			case SDLK_s:
+				sPressed = true;
+				break;
 			case SDLK_ESCAPE:
 				isRunning = false;
 				break;
+	
 			default:
 				break;
 			}
@@ -151,65 +203,81 @@ void Game::handleEvents()
 }
 void Game::update()
 {
-	
-	player->Update(this);
-	for(auto &p:enemies)
-		p->Update(this);
-	//Center the camera over the dot
-	Camera.x = (player->getXpos() + 21) - 1118 / 2;
-	Camera.y = (player->getYpos() + 21) - 774 / 2;
+	if (sPressed) {
+		player->Update(this);
+		for (auto &p : enemies)
+			p->Update(this);
+		//Center the camera over the dot
+		Camera.x = (player->getXpos() + 21) - 1118 / 2;
+		Camera.y = (player->getYpos() + 21) - 774 / 2;
 
-	//Keep the camera in bounds
-	if (Camera.x < 0)
-	{
-		Camera.x = 0;
-		player->setIsCentered(0);
+		//Keep the camera in bounds
+		if (Camera.x < 0)
+		{
+			Camera.x = 0;
+			player->setIsCentered(0);
+		}
+		if (Camera.y < 0)
+		{
+			Camera.y = 0;
+			player->setIsCentered(0);
+
+		}
+		if (Camera.x > 43 * 59 - Camera.w)
+		{
+			Camera.x = 43 * 59 - Camera.w;
+			player->setIsCentered(0);
+
+		}
+		if (Camera.y > 43 * 39 - Camera.h)
+		{
+			player->setIsCentered(0);
+
+			Camera.y = 43 * 39 - Camera.h;
+		}
+		//setNewVievingPortPosition(player->getXpos(), player->getYpos());
+
+		//SDL_RenderSetViewport(Game::renderer, &viewingPort);
 	}
-	if (Camera.y < 0)
-	{
-		Camera.y = 0;
-		player->setIsCentered(0);
-
-	}
-	if (Camera.x > 43 * 59 - Camera.w)
-	{
-		Camera.x = 43 * 59 - Camera.w;
-		player->setIsCentered(0);
-
-	}
-	if (Camera.y > 43 * 39 - Camera.h)
-	{
-		player->setIsCentered(0);
-
-		Camera.y = 43 * 39 - Camera.h;
-	}
-	//setNewVievingPortPosition(player->getXpos(), player->getYpos());
-
-	//SDL_RenderSetViewport(Game::renderer, &viewingPort);
-
 
 }
 
 void Game::render()
 {
+	/*if (!beginCounter) {
+		SDL_Texture* loadingTex = TextureManager::LoadTexture("../Texutres/loading/Loading.png");
+		SDL_Rect srcRectLoading = { 0, 0, 1920, 1080 };
+		SDL_Rect destRectLoad = { 0, 0, 1920, 1080 };
+		TextureManager::Draw(loadingTex, srcRectLoading, destRectLoad);
+		SDL_Delay(3000);
+		beginCounter++;
+	}*/
+
 
 	SDL_SetRenderDrawColor(Game::renderer, 0x00, 0x00, 0x00, 0xFF);
 
 	SDL_RenderClear(renderer);
+
+	if (!sPressed) {
+
+		SDL_RenderSetViewport(Game::renderer, nullptr);
+		SDL_Rect srcRectLoading = { 0, 0, 1920, 1080 };
+		SDL_Rect destRectLoad = { 0, 0, 1920, 1080 };
+		TextureManager::Draw(loadingTex, srcRectLoading, destRectLoad);
+	}
+	if (sPressed) {
+		map->DrawMap(this);
+		//this is where we would add stuff to render
+
+		player->Render();
+		for (auto &p : enemies)
+			p->Render();
+
+		if (player->spearsCount())
+			player->renderSpears();
+	}
+		SDL_RenderPresent(renderer);
 	
-
-	map->DrawMap(this);
-	//this is where we would add stuff to render
-	
-	player->Render();
-	for (auto &p : enemies)
-		p->Render();
-
-	if(player->spearsCount())
-		player->renderSpears();
-
-	SDL_RenderPresent(renderer);
-
 }
 
 void Game::clean()

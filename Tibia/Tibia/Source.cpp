@@ -14,6 +14,7 @@ int main(int argc, char *args[])
 
 	game = new Game();
 	game->init("Begginings", 1920,1080, 1);
+	game->initRest();
 
 	
 
